@@ -7,6 +7,7 @@ require_once(__DIR__ . "/lib/config.php"); // db configuration class
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// post argument check //
 $employee_name = (isset($_POST['employeeName'])) ? $_POST['employeeName'] : "";
 $event_name = (isset($_POST['eventName'])) ? $_POST['eventName'] : "";
 $date = (isset($_POST['date'])) ? $_POST['date'] : "";
@@ -20,6 +21,7 @@ if ($employee_name != "" || $event_name != "" || $date != "") {
         echo "No Data Found";
     }
 } else {
+    // Read json file and loop data //
     $file = file_get_contents(__DIR__ . '/Code Challenge (Events).json');
     $json = json_decode($file, true);
     $counter = 0;
