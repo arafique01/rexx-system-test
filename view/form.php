@@ -21,7 +21,7 @@
 <body>
     <h2>RXX System Code Test</h2>
 
-    <form action="index.php" method="POST">
+    <form action= "" method="POST">
         <input type="text" id="employeeName" name="employeeName" placeholder="Employee Name" />
         <select id="eventName" name="eventName">
             <option value="">All</option>
@@ -44,7 +44,7 @@
     </thead>
     <tbody>
 
-        <?php foreach($result as $data){?>
+        <?php foreach($result['result'] as $data){?>
         <tr>
         <td><?php echo $data['id'];?></td>
         <td><?php echo $data['name'];?></td>
@@ -58,7 +58,7 @@
         <?php }?> 
         <tr>
             <td colspan="5">Total Price:</td>
-            <td colspan="2"><?php echo $result['total_sum'];?></td>
+            <td colspan="2"><?php echo $result['sum'];?></td>
         </tr>
     </tbody>
     </table>

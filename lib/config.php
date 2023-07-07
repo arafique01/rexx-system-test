@@ -28,12 +28,16 @@ class db{
 
     function getData()
 	{
-		$query = "SELECT * FROM employee";
+		$query = "SELECT *, (SELECT SUM(participation_fee) FROM employee) AS total_sum FROM employee";
 		$result      = mysqli_query($this->connect, $query) or die(mysqli_error($this->connect));
 		$rowsCounter = mysqli_num_rows($result);
 		
 		if ($rowsCounter > 0) {
-			return $result->fetch_all(MYSQLI_ASSOC);
+            $result_data = $result->fetch_all(MYSQLI_ASSOC);
+			$sum = $result_data[0]['total_sum'];
+			$result_array['result'] = $result_data; 
+			$result_array['sum'] = $sum; 
+            return $result_array;
 		}else{
 			return false;
 		}
@@ -41,12 +45,36 @@ class db{
 
 	function filterData($emp_name, $event_name,$date)
 	{
-		$query = "SELECT *, (SELECT SUM(participation_fee) FROM employee) AS total_sum FROM employee WHERE name = $emp_name AND event_name = $event_name AND event_date = $date";
-		$result      = mysqli_query($this->connect, $query) or die(mysqli_error($this->connect));
+        $where = "";
+        $conditions = array();
+
+        if (!empty($emp_name)) {
+            $conditions[] = "name like '%$emp_name%'";
+        }
+
+        if (!empty($event_name)) {
+            $conditions[] = "event_name = '$event_name'";
+        }
+
+        if (!empty($date)) {
+            $conditions[] = "event_date = '$date'";
+        }
+
+        if (!empty($conditions)) {
+            $where = "WHERE " . implode(" AND ", $conditions);
+        }
+
+		$query = "SELECT *, (SELECT SUM(participation_fee) FROM employee $where) AS total_sum FROM employee $where";
+
+        $result      = mysqli_query($this->connect, $query) or die(mysqli_error($this->connect));
 		$rowsCounter = mysqli_num_rows($result);
 		
 		if ($rowsCounter > 0) {
-			return $result->fetch_all(MYSQLI_ASSOC);
+            $result_data = $result->fetch_all(MYSQLI_ASSOC);
+			$sum = $result_data[0]['total_sum'];
+			$result_array['result'] = $result_data; 
+			$result_array['sum'] = $sum; 
+            return $result_array;
 		}else{
 			return false;
 		}
