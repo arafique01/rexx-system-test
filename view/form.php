@@ -30,7 +30,7 @@
             <option value="code.talks">code.talks</option>
         </select>
         <input type="date" id="date" name="date"  />
-        <button type="submit" value="Submit">
+        <input type="submit" value="Submit" name= "Submit">
     </form>
 
     <table id="dataTable"><thead>
@@ -56,8 +56,13 @@
         
         </tr>
         <?php }?> 
+        <tr>
+            <td colspan="5">Total Price:</td>
+            <td colspan="2"><?php echo $result['total_sum'];?></td>
+        </tr>
     </tbody>
     </table>
+
 
 </body>
 

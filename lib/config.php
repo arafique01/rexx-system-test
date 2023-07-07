@@ -41,7 +41,7 @@ class db{
 
 	function filterData($emp_name, $event_name,$date)
 	{
-		$query = "SELECT * FROM employee WHERE name = $emp_name AND event_name = $event_name AND event_date = $date";
+		$query = "SELECT *, (SELECT SUM(participation_fee) FROM employee) AS total_sum FROM employee WHERE name = $emp_name AND event_name = $event_name AND event_date = $date";
 		$result      = mysqli_query($this->connect, $query) or die(mysqli_error($this->connect));
 		$rowsCounter = mysqli_num_rows($result);
 		
